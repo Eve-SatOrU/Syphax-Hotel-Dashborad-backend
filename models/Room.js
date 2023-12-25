@@ -21,5 +21,4 @@ const Room = sequelize.define('Room', {
     },
 });
 
-// Establish the hasMany relationship
 module.exports = Room;

@@ -45,7 +45,6 @@ exports.postRegister = async (req, res, next) => {
   }
 
   try {
-    // Check if username or email is already taken
     const existingUser = await User.findOne({
       where: {
         [Op.or]: [
@@ -59,17 +58,15 @@ exports.postRegister = async (req, res, next) => {
       return res.status(400).json({ error: 'Username or email is already taken.' });
     }
 
-    // Hash the password before saving it to the database
     const hashedPassword = await bcrypt.hash(userPassword, 10);
 
-    // Create a new user
     const user = await User.create({
       userName,
       userPassword: hashedPassword,
       email,
       picture,
       birthday,
-      status: userStatus // Set user status
+      status: userStatus 
     });
 
     res.status(201).json({ message: 'User registered successfully', user });

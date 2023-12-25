@@ -28,6 +28,5 @@ const User = sequelize.define('user', {
   },
 });
 
-// relation 
 
 module.exports = User;

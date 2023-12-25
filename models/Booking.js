@@ -21,6 +21,5 @@ const Booking = sequelize.define('Booking', {
     },
 });
 
-// Establish the associations
 
 module.exports = Booking;
