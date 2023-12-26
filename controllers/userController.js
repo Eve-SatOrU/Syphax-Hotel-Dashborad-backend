@@ -6,10 +6,6 @@ const User = require('../models/user');
 
 
 // lesssssssssssss go 
-exports.getindex = async (req, res, next) => {
-  const user = req.session.user;
-  res.json({ user });
-};
 
 User.beforeCreate(async (user) => {
   const salt = await bcrypt.genSalt();
@@ -35,7 +31,7 @@ exports.getRegister = (req, res, next) => {
 };
 
 exports.postRegister = async (req, res, next) => {
-  const { userName, userPassword, email, picture, birthday, userStatus } = req.body;
+  const { userName, userPassword, email, picture, birthday, status } = req.body;
 
   // Validate password strength
   if (!validateStrongPassword(userPassword)) {
@@ -66,7 +62,7 @@ exports.postRegister = async (req, res, next) => {
       email,
       picture,
       birthday,
-      status: userStatus 
+      status
     });
 
     res.status(201).json({ message: 'User registered successfully', user });
@@ -74,6 +70,7 @@ exports.postRegister = async (req, res, next) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.getLogin = (req, res, next) => {
   res.json({ message: 'Render Login form' });
@@ -112,3 +109,4 @@ exports.postLogout = async (req, res) => {
 
 // this json soooo  boring :"))))
 
+// when i finish all this let's add user can see available rooms and this stuff 

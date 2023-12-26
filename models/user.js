@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../util/database');
 
 const User = sequelize.define('user', {
-  username: {
+  userName: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -14,7 +14,7 @@ const User = sequelize.define('user', {
   birthday: {
     type: DataTypes.DATE,
   },
-  password: {
+  userPassword: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -24,7 +24,8 @@ const User = sequelize.define('user', {
     unique: true,
   },
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'done', 'cancel', 'unverified'), 
+    defaultValue: 'unverified', 
   },
 });
 

@@ -4,9 +4,9 @@ const sequelize = require('../util/database');
 
 const Booking = sequelize.define('Booking', {
     status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+        type: DataTypes.ENUM('pending', 'done', 'cancel','unverfied'), 
+        defaultValue: 'unverfied', 
+      },
     startDay: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -14,11 +14,7 @@ const Booking = sequelize.define('Booking', {
     endDay: {
         type: DataTypes.DATE,
         allowNull: false,
-    },
-    roomNumber: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
+    }
 });
 
 
