@@ -3,10 +3,13 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../util/database');
 
 const Room = sequelize.define('Room', {
-roomName: {
-    type: DataTypes.STRING,
+roomType:{
+        type: DataTypes.ENUM('room', 'suite'),
+        allowNull: false,
+},    
+roomNumber: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true,
 },
 type: {
     type: DataTypes.STRING,

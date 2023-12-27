@@ -20,9 +20,9 @@ router.post('/delete-user/:id', adminController.deleteUser);
 router.get('/createRoom', roomController.getCreateRoom);
 router.post('/createRoom', roomController.postCreateRoom);
 router.get('/rooms', roomController.getAllRooms);
-router.post('/rooms/:roomName/bookings', roomController.bookRoomAndAddBooking)
+router.post('/rooms/:roomType/:roomNumber/bookings', roomController.bookRoomAndAddBooking)
 
 // booking stuff
 router.get('/bookings', bookingController.viewBookings);
-router.post('/deleteBooking/:roomName/:bookingId', bookingController.deleteBooking);
+router.post('/deleteBooking/:roomType/:roomNumber/:bookingId', bookingController.deleteBooking);
 module.exports = router;

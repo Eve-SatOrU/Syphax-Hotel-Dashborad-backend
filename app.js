@@ -41,13 +41,13 @@ const Admin = require('./models/admin');
 
 
 // let's define the associations here
-Booking.belongsTo(User, { foreignKey: 'userName' });
-Booking.belongsTo(Room, { foreignKey: 'roomName' });
-Room.hasMany(Booking, { foreignKey: 'roomName' });
-User.hasMany(Booking, { foreignKey: 'userName' });
+// Booking.belongsTo(User, { foreignKey: 'userName' });
+Booking.belongsTo(Room, { foreignKey: 'roomNumber', targetKey: 'roomNumber', constraints: false });
+// In Room model
+Room.hasMany(Booking, { foreignKey: 'roomNumber', sourceKey: 'roomNumber', constraints: false });
+// User.hasMany(Booking, { foreignKey: 'userName' });
 
 
-// sequelize.sync({force:true})
 sequelize.sync()
 .then(result => {
     app.listen(3000);
