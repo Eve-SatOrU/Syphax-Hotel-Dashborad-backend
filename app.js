@@ -52,15 +52,7 @@ const PORT = process.env.PORT || 3000;
 sequelize.sync()
 .then(result => {
     app.listen(PORT);
-    console.log(
-      "  ______                 ",
-      " |  ____|                ",
-      " | |__ __   __ ___       ",
-      " |  __|\\ \\ / // _ \\   ",
-      " | |____\\ V /|  __/     ",
-      " |______|\\_/  \\___|    ",
-      "",                                                              
-    );
+    console.log(PORT);
   })
 .catch(err => {
     console.log(err);

@@ -58,15 +58,16 @@ exports.postLogin= (async (req, res) => {
 //Dashboard
   exports.getDashboard = async (req, res, next) => {
     try {
-      const admin = req.session.admin;
-      if (req.session.admin) {
+
+      // const admin = req.session.admin;
+      // if (req.session.admin) {
         const users = await User.findAll();
         res.json({success: users});
 
-      } else {
-        // json
-        res.json({ message: 'You are not logged in' });
-      }
+      // } else {
+      //   // json
+      //   res.json({ message: 'You are not logged in' });
+      // }
     } catch (error) {
       console.error(error);
       res.json({message: 'Something went wrong'});
@@ -76,10 +77,10 @@ exports.postLogin= (async (req, res) => {
   exports.deleteUser = (req, res, next) => {
     const id = req.params.id;
     console.log("User ID: ", id);
-    if (!req.session.admin) {
-        // json
-        return res.json({ message: 'You are not logged in' });
-    }
+    // if (!req.session.admin) {
+    //     // json
+    //     return res.json({ message: 'You are not logged in' });
+    // }
   
     User.destroy({
       where: {
