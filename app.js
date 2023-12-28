@@ -47,6 +47,7 @@ Booking.belongsTo(Room, { foreignKey: 'roomNumber', targetKey: 'roomNumber', con
 Room.hasMany(Booking, { foreignKey: 'roomNumber', sourceKey: 'roomNumber', constraints: false });
 // User.hasMany(Booking, { foreignKey: 'userName' });
 
+const PORT = process.env.PORT || 3000;
 
 sequelize.sync()
 .then(result => {
