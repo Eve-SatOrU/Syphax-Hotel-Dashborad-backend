@@ -25,4 +25,5 @@ router.post('/rooms/:roomType/:roomNumber/bookings', roomController.bookRoomAndA
 // booking stuff
 router.get('/bookings', bookingController.viewBookings);
 router.post('/deleteBooking/:roomType/:roomNumber/:bookingId', bookingController.deleteBooking);
+router.post('/bookings/:bookingId/change-status', bookingController.updateBooking);
 module.exports = router;

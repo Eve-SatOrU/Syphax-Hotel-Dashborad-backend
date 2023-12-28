@@ -41,6 +41,28 @@ exports.viewBookings=async(req,res,next) =>{
         console.log(err);
     }
 }
+// now adding change status of booking 
+exports.updateBooking = async(req, res, next) =>{
+    const { bookingId } = req.params;
+    const { newStatus } = req.body; 
+    try{
+        if(!bookingId){
+            return res.status(400).json({error: "Booking ID not provided"});
+        }
 
+        const booking = await Booking.findByPk(bookingId);
+
+        if(!booking){
+            return res.status(404).json({error: "Booking not found"});
+        }
+
+        booking.status = newStatus;
+        await booking.save();
+        return res.status(200).json({message: "Booking updated successfully"});
+    }catch(err){
+        console.error(err);
+        return res.status(500).json({error: "Internal Server Error"});
+    }
+}
 
 // i didn't do admin session i will do it later inchllh :"))"
