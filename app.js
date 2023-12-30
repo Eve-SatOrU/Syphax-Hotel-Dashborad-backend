@@ -52,7 +52,7 @@ User.addHook('beforeDestroy', async (user, options) => {
 });
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync()
+sequelize.sync({ force: true})
 .then(result => {
     app.listen(PORT);
     console.log(PORT);
