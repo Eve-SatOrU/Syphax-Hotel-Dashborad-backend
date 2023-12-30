@@ -1,7 +1,11 @@
 // here admin conroller 
 const User = require('../models/user');
 const Admin = require('../models/admin');
+const Booking = require('../models/Booking');
+const Room = require('../models/Room');
 const bcrypt = require('bcrypt');
+const sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 //register admin and login
 exports.getAdminRegistration = (req, res, next) => {
     // json
@@ -73,34 +77,45 @@ exports.postLogin= (async (req, res) => {
       res.json({message: 'Something went wrong'});
     }
   };
-  //delete user
-  exports.deleteUser = (req, res, next) => {
-    const id = req.params.id;
-    console.log("User ID: ", id);
-    // if (!req.session.admin) {
-    //     // json
-    //     return res.json({ message: 'You are not logged in' });
-    // }
+  //delete user  
+  exports.deleteUser = async (req, res, next) => {
+    const userId = req.params.id;
   
-    User.destroy({
-      where: {
-        id: id,
+    try {
+      const user = await User.findByPk(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
       }
-    })
-    .then(() => {
-      if (req.session.user && req.session.user.id === id) {
-        req.session.destroy((err) => {
-          if (err) {
-            console.log(err);
-          }
-          res.json({ message: 'User deleted successfully' });
-
-        });
-      } else {
-        res.json({ message: 'User deleted successfully' })
-        
-      }
-    })
-    .catch(err => console.log(err));
+  
+      await user.destroy();
+  
+      return res.status(200).json({ message: 'User and associated records deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+   
+  // top users
+  exports.getTopUsers = async (req, res) => {
+    try {
+      const topUsers = await User.findAll({
+        attributes: [
+          'id',
+          'userName',
+          'picture',
+          [sequelize.literal('(SELECT COUNT(*) FROM Bookings WHERE Bookings.userId = user.id)'), 'bookingCount'],
+        ],
+        order: [[sequelize.literal('bookingCount'), 'DESC']],
+        limit: 2,
+        raw: true,
+      });
+  
+      res.status(200).json(topUsers);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   };
   

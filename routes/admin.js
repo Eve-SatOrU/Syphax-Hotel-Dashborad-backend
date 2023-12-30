@@ -20,10 +20,14 @@ router.post('/delete-user/:id', adminController.deleteUser);
 router.get('/createRoom', roomController.getCreateRoom);
 router.post('/createRoom', roomController.postCreateRoom);
 router.get('/rooms', roomController.getAllRooms);
-router.post('/rooms/:roomType/:roomNumber/bookings', roomController.bookRoomAndAddBooking)
+router.post('/rooms/:roomType/:roomNumber/bookings', roomController.bookRoomAndAddBooking);
+router.post('/deleteRoom/:roomType/:roomNumber', roomController.deleteRoom);
 
 // booking stuff
 router.get('/bookings', bookingController.viewBookings);
 router.post('/deleteBooking/:roomType/:roomNumber/:bookingId', bookingController.deleteBooking);
 router.post('/bookings/:bookingId/change-status', bookingController.updateBooking);
+
+// top users
+router.get('/top-users', adminController.getTopUsers);
 module.exports = router;

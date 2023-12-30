@@ -1,7 +1,4 @@
 // less goooo
-// create room 
-//View all rooms
-// Book a room (changing its availability )
 
 // create room
 const Room = require("../models/Room"); 
@@ -21,6 +18,7 @@ exports.postCreateRoom = (req, res, next) => {
         capacity,
         available,
     })
+    
         .then((result) => {
         res.status(201).json({
             message: "Room created successfully",
@@ -67,7 +65,16 @@ if (!room) {
 if (room.available !== 'available') {
     return res.status(400).json({ error: 'Room is not available for booking.' });
 }
-
+    const user = await User.findOne({
+        where: {
+          userName,
+        },
+      });
+  
+      if (!user) {
+        return res.status(400).json({ error: 'User not found.' });
+      }
+  
 // this to get all userName from db :) 
 const users = await User.findAll();
 const usernames = users.map(user => user.userName);
@@ -85,6 +92,7 @@ startDay,
 endDay,
 roomType: room.roomType, 
 roomNumber: room.roomNumber, 
+userId: user.id, 
 
 });
 
@@ -98,3 +106,29 @@ await room.save();
 res.status(500).json({ error: error.message });
 }
 };
+
+// romove room also remove booking related with 
+exports.deleteRoom = async (req, res) => {
+    const { roomNumber, roomType } = req.params;
+    try {
+        const room = await Room.findOne({ where: { roomNumber, roomType } });
+
+        if (!room) {
+            return res.status(404).json({ error: `Room with number ${roomNumber} and type ${roomType} not found.` });
+        }
+
+        // Remove the room and its associated bookings
+        await room.destroy({
+            include: [{
+                model: Booking,
+                where: { roomNumber: room.roomNumber, roomType: room.roomType },
+            }],
+        });
+
+        return res.status(200).json({ message: 'Room and associated bookings deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+

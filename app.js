@@ -41,12 +41,15 @@ const Admin = require('./models/admin');
 
 
 // let's define the associations here
-// Booking.belongsTo(User, { foreignKey: 'userName' });
+Booking.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
 Booking.belongsTo(Room, { foreignKey: 'roomNumber', targetKey: 'roomNumber', constraints: false });
-// In Room model
 Room.hasMany(Booking, { foreignKey: 'roomNumber', sourceKey: 'roomNumber', constraints: false });
-// User.hasMany(Booking, { foreignKey: 'userName' });
+User.hasMany(Booking, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true });
 
+User.addHook('beforeDestroy', async (user, options) => {
+// for delete associated bookings
+  await Booking.destroy({ where: { userId: user.id } });
+});
 const PORT = process.env.PORT || 3000;
 
 sequelize.sync()

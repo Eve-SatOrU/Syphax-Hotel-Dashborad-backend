@@ -108,5 +108,3 @@ exports.postLogout = async (req, res) => {
 
 
 // this json soooo  boring :"))))
-
-// when i finish all this let's add user can see available rooms and this stuff 
